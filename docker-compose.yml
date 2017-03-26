@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+
+  userservice:
+    build: ./user
+    ports:
+      - 8080:80
+    links:
+      - kafka
+    volumes:
+      - ./user/src/:/var/www/html
+
+  notificationservice:
+    build: ./notification
+    links:
+      - kafka
+    volumes:
+      - ./notification/src/:/var/www/html
+
+  emailservice:
+      build: ./email
+      links:
+        - kafka
+      volumes:
+        - ./email/src/:/var/www/html
+
+  mysql:
+      image: mysql:latest
+      volumes_from:
+        - volumes_data
+      ports:
+        - "33066:3306"
+      environment:
+        MYSQL_DATABASE: homestead
+        MYSQL_USER: homestead
+        MYSQL_PASSWORD: secret
+        MYSQL_ROOT_PASSWORD: root
+
+  volumes_data:
+    image: tianon/true
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  kafka:
+    image: spotify/kafka
+    environment:
+#      ADVERTISED_HOST: 192.168.99.100
+      ADVERTISED_PORT: 9092
+    ports:
+      - 2181:2181
+      - 9092:9092
+
+
+    

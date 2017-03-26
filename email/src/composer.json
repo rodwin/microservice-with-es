@@ -1,0 +1,12 @@
+{
+    "name": "rodwin/src",
+    "authors": [
+        {
+            "name": "rodwin lising",
+            "email": "rodwinlising@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^5.4"
+    }
+}
